@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Border Vibration Detection{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="slideshow-container">
+        <div class="slide active" style="background-image: url('{{ url_for('static', filename='images/slide1.jpg') }}')">
+            <div class="slide-content">
+                <h1>Border Security Reinvented</h1>
+                <p>Real-time underground vibration detection using AI and wireless edge sensor networks</p>
+                {% if not session.user_id %}
+                    <a href="{{ url_for('register') }}" class="cta-button">Get Started</a>
+                {% else %}
+                    <a href="{{ url_for('dashboard') }}" class="cta-button">Go to Dashboard</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('{{ url_for('static', filename='images/slide2.jpg') }}')">
+            <div class="slide-content">
+                <h1>AI-Powered Detection</h1>
+                <p>Detect cars, bikes, persons, animals, and more with YOLOv5</p>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('{{ url_for('static', filename='images/slide3.jpg') }}')">
+            <div class="slide-content">
+                <h1>Wireless Edge Sensors</h1>
+                <p>ESP32-based vibration sensors for real-time monitoring</p>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('{{ url_for('static', filename='images/slide4.jpg') }}')">
+            <div class="slide-content">
+                <h1>Comprehensive Object Detection</h1>
+                <p>Including specialized rat detection for tunnel monitoring</p>
+            </div>
+        </div>
+        
+        <div class="slideshow-nav">
+            <span class="nav-dot active"></span>
+            <span class="nav-dot"></span>
+            <span class="nav-dot"></span>
+            <span class="nav-dot"></span>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2 class="section-title">Key Features</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3>Real-time Detection</h3>
+            <p>Instant vibration detection and analysis using advanced sensors</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🧠</div>
+            <h3>AI-Powered</h3>
+            <p>YOLOv5 object detection for accurate classification</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📡</div>
+            <h3>Wireless Network</h3>
+            <p>ESP32-based edge sensor network for border monitoring</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>Multiple Detections</h3>
+            <p>Separate models for general objects and rat detection</p>
+        </div>
+    </div>
+</section>
+
+<section class="detection-section">
+    <h2 class="section-title">Detection Capabilities</h2>
+    <div class="detection-grid">
+        <div class="detection-card">
+            <div class="detection-icon">🚗</div>
+            <h3>General Object Detection</h3>
+            <div class="object-list">
+                <span class="object-tag">Car</span>
+                <span class="object-tag">Bike</span>
+                <span class="object-tag">Person</span>
+                <span class="object-tag">Goat</span>
+                <span class="object-tag">Elephant</span>
+                <span class="object-tag">Horse</span>
+                <span class="object-tag">Zebra</span>
+                <span class="object-tag">Dog</span>
+            </div>
+            <p>Perfect for detecting vehicles, humans, and large animals</p>
+        </div>
+        <div class="detection-card">
+            <div class="detection-icon">🐀</div>
+            <h3>Specialized Rat Detection</h3>
+            <div class="object-list">
+                <span class="object-tag">Rat</span>
+            </div>
+            <p>Dedicated model for detecting rats in tunnel systems</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

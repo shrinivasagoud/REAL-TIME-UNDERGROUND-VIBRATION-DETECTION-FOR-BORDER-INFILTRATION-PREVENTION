@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Border Vibration Detection{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="welcome-section">
+        <h1>Welcome, {{ username }}!</h1>
+        <p>Monitor and control border detection systems</p>
+    </div>
+    
+    <!-- Flash messages for detection status -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="dashboard-grid">
+        <!-- General Detection Card -->
+        <div class="dashboard-card">
+            <div class="detection-icon">🚗</div>
+            <h3>General Detection</h3>
+            <div class="object-list">
+                <span class="object-tag">Car</span>
+                <span class="object-tag">Bike</span>
+                <span class="object-tag">Person</span>
+                <span class="object-tag">Goat</span>
+                <span class="object-tag">Elephant</span>
+                <span class="object-tag">Horse</span>
+                <span class="object-tag">Zebra</span>
+                <span class="object-tag">Dog</span>
+            </div>
+            
+            <!-- Form for General Detection -->
+            <form action="{{ url_for('run_detection_form') }}" method="POST">
+                <input type="hidden" name="detection_type" value="general">
+                <button type="submit" class="detection-btn btn-general" 
+                        onclick="this.innerHTML='<span class=\'spinner\'></span> Running...'; this.disabled=true;">
+                    Run General Detection
+                </button>
+            </form>
+            
+            <p>
+                <span class="status-indicator {% if general_status == 'running' %}status-active{% else %}status-inactive{% endif %}"></span>
+                Status: {{ general_status|capitalize if general_status else 'Ready' }}
+            </p>
+            
+            {% if general_last_run %}
+            <small>Last run: {{ general_last_run }}</small>
+            {% endif %}
+        </div>
+        
+        <!-- Rat Detection Card -->
+        <div class="dashboard-card">
+            <div class="detection-icon">🐀</div>
+            <h3>Rat Detection</h3>
+            <div class="object-list">
+                <span class="object-tag">Rat</span>
+            </div>
+            
+            <!-- Form for Rat Detection -->
+            <form action="{{ url_for('run_detection_form') }}" method="POST">
+                <input type="hidden" name="detection_type" value="rat">
+                <button type="submit" class="detection-btn btn-rat"
+                        onclick="this.innerHTML='<span class=\'spinner\'></span> Running...'; this.disabled=true;">
+                    Run Rat Detection
+                </button>
+            </form>
+            
+            <p>
+                <span class="status-indicator {% if rat_status == 'running' %}status-active{% else %}status-inactive{% endif %}"></span>
+                Status: {{ rat_status|capitalize if rat_status else 'Ready' }}
+            </p>
+            
+            {% if rat_last_run %}
+            <small>Last run: {{ rat_last_run }}</small>
+            {% endif %}
+        </div>
+        
+        <!-- Recent Detection Logs -->
+        <div class="logs-container">
+            <h3>Recent Detection Logs</h3>
+            <div class="logs-list">
+                {% if logs %}
+                    {% for log in logs %}
+                        <div class="log-entry">{{ log }}</div>
+                    {% endfor %}
+                {% else %}
+                    <div class="log-entry">No recent detections</div>
+                {% endif %}
+            </div>
+            
+            <!-- Refresh Logs Form -->
+            <form action="{{ url_for('refresh_logs') }}" method="POST" style="margin-top: 1rem;">
+                <button type="submit" class="auth-button" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                    🔄 Refresh Logs
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Additional styles for form buttons */
+.detection-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.detection-btn .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.logs-container {
+    grid-column: span 2;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-top: 2rem;
+}
+
+.logs-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    font-family: monospace;
+}
+
+.log-entry {
+    padding: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.9);
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .logs-container {
+        grid-column: span 1;
+    }
+}
+</style>
+{% endblock %}
